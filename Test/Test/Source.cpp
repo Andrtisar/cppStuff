@@ -17,8 +17,9 @@ int main() {
 
 
 	do {
-		std::cout << "Input file path:\n";
+		std::cout << "Input file path, or write ! to exit:\n";
 		getline(std::cin, path);
+		if (path == "!") return 0;
 		input.open(path);
 	} while (!input.is_open());
 	
