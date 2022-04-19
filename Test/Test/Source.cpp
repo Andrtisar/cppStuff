@@ -62,6 +62,6 @@ int main() {
 			output << char(i + 32) << ": " << charOccurs[i] << std::endl;
 		}
 	}
-
+  
 	output.close();
 }
