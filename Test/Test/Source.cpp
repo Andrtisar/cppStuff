@@ -51,7 +51,7 @@ int main() {
 
 	std::cout << "Creating output.txt file with char occurences in input file\n";
 	for (int i = 0; i < 255; ++i) {
-		if (charOccurs[i] != 0) {
+		if (charOccurs[i]) {
 			// std::cout << char(i) << ": " << charOccurs[i] << std::endl;
 			output << char(i) << ": " << charOccurs[i] << std::endl;
 		}
