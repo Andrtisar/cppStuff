@@ -4,7 +4,7 @@
 
 void calculateOccurs(int arr[], std::string line) {
 	for (int j = 0; j < line.length(); ++j) {
-		++arr[int(line[j])-32] ;
+		++arr[int(line[j]) - 32];
 	}
 }
 
@@ -22,7 +22,7 @@ int main() {
 		if (path == "!") return 0;
 		input.open(path);
 	} while (!input.is_open());
-	
+
 	//path = "Debug/test.txt";
 
 
@@ -59,9 +59,9 @@ int main() {
 	for (int i = 0; i < 95; ++i) {
 		if (charOccurs[i]) {
 			// std::cout << char(i) << ": " << charOccurs[i] << std::endl;
-			output << char(i+32) << ": " << charOccurs[i] << std::endl;
+			output << char(i + 32) << ": " << charOccurs[i] << std::endl;
 		}
 	}
-
+  
 	output.close();
 }
