@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-const int possibleChars = 127; // technically 128 but shush
+const int possibleChars = 128;
 
 void calculateOccurs(int arr[], std::string line) {
 	for (int j = 0; j < line.length(); ++j) {
