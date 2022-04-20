@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "ConsoleReader.h"
 
 void calculateOccurs(int arr[], std::string line) {
 	for (int j = 0; j < line.length(); ++j) {
@@ -16,14 +17,24 @@ int main() {
 	std::ifstream input;
 
 
-	do {
+	/*do {
 		std::cout << "Input file path, or write ! to exit:\n";
 		getline(std::cin, path);
 		if (path == "!") return 0;
 		input.open(path);
-	} while (!input.is_open());
+	} while (!input.is_open());*/
 
+	ConsoleReader reader;
+	std::cout << "Input file path:\n";
+	if (reader.readConsole()) {
+		path = reader.buffer;
+	}
 	//path = "Debug/test.txt";
+	input.open(path);
+	if (!input.is_open()) {
+		std::cout << "Could not open that file. Opening Debug/test.txt instead.\n";
+		input.open("Debug/test.txt");
+	}
 
 
 	// create an array filled with 0
