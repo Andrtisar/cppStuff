@@ -6,10 +6,12 @@ class ConsoleReader {
 	public:
 		std::string buffer = "";
 		int readConsole() {
+			char esc = 27;
+			char enter = 13;
 			int c;
 			do {
 				c = getch();
-				if (c != 13 && c != 27) {
+				if (c != enter && c != esc) {
 					buffer += c;
 					putch(c);
 				}
@@ -17,7 +19,7 @@ class ConsoleReader {
 				else
 					break;
 			} while (true);
-			if (c == 27)
+			if (c == esc)
 				buffer = "";
 			return buffer.length();
 		};
