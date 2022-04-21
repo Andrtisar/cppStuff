@@ -29,6 +29,10 @@ int main() {
 	if (reader.readConsole()) {
 		path = reader.buffer;
 	}
+	else {
+		exit(-1);
+	}
+	std::cout << "\n";
 	//path = "Debug/test.txt";
 	input.open(path);
 	if (!input.is_open()) {

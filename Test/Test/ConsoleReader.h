@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <conio.h>
 
 class ConsoleReader {
 	public:
@@ -7,9 +8,11 @@ class ConsoleReader {
 		int readConsole() {
 			int c;
 			do {
-				c = getchar();
-				if (c != '\n' && c != 27) // tried: 27  char(27)  '^['  'esc'  0x1B  '0x1B'  '\e'  '\x1B'
+				c = getch();
+				if (c != 13 && c != 27) {
 					buffer += c;
+					putch(c);
+				}
 				// can getchar even get esc?
 				else
 					break;
