@@ -4,15 +4,20 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace NativeUnitTest
+namespace NativeUnitTestForMain
 {
-	TEST_CLASS(NativeUnitTest)
+	TEST_CLASS(MainTests)
 	{
 	public:
 		
 		TEST_METHOD(TestIfPathExists)
 		{
+			int charOccurs[possibleChars];
+			for (int i = 0; i < possibleChars; ++i) {
+				charOccurs[i] = 0;
+			}
 			Assert::IsFalse(calculateOccursInFile("randompath.txt", {}));
+			Assert::IsTrue(calculateOccursInFile("D:/bruhmoment/Abyss/ToDo.txt", charOccurs));
 		}
 	};
 }
