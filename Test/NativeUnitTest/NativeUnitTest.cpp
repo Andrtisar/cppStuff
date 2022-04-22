@@ -10,10 +10,9 @@ namespace NativeUnitTest
 	{
 	public:
 		
-		TEST_METHOD(TestMethod1)
+		TEST_METHOD(TestIfPathExists)
 		{
-			Assert::AreEqual(1, 1);
-			Assert::AreNotEqual(1, 2);
+			Assert::IsFalse(calculateOccursInFile("randompath.txt", {}));
 		}
 	};
 }
