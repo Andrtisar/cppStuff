@@ -2,17 +2,14 @@
 #include <fstream>
 #include <string>
 
+const int possibleChars = 128;
+
 void calculateOccurs(int arr[], std::string line) {
 	for (int j = 0; j < line.length(); ++j) {
 		++arr[int(line[j])];
 	}
 }
 
-
-// void(*fileFunction)(int[], std::string) -> passing a function as an argument
-// there is no way that I could come up with this
-// and I don't really see a reason to use this
-// so I'm just not going to
 
 bool calculateOccursInFile(std::string path, int arr[]) {
 	std::string line;
@@ -40,13 +37,12 @@ void outputToFile(std::string outputPath, int arr[]) {
 	output.open(outputPath);
 
 	std::cout << "Creating output.txt file with char occurences in input file\n";
-	for (int i = 0; i < 128; ++i) {
-		if (arr[i]) {
+	for (int i = 0; i < possibleChars; ++i) {
+		if (charOccurs[i]) {
 			// std::cout << char(i) << ": " << charOccurs[i] << std::endl;
-			output << char(i) << ": " << arr[i] << std::endl;
+			output << char(i) << ": " << charOccurs[i] << std::endl;
 		}
 	}
-
 	output.close();
 }
 
@@ -62,8 +58,8 @@ int main() {
 
 	
 	// create an array filled with 0
-	int charOccurs[128];
-	for (int i = 0; i < 128; ++i) {
+	int charOccurs[possibleChars];
+	for (int i = 0; i < possibleChars; ++i) {
 		charOccurs[i] = 0;
 	}
 
