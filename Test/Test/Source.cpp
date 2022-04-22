@@ -38,9 +38,9 @@ void outputToFile(std::string outputPath, int arr[]) {
 
 	std::cout << "Creating output.txt file with char occurences in input file\n";
 	for (int i = 0; i < possibleChars; ++i) {
-		if (charOccurs[i]) {
+		if (arr[i]) {
 			// std::cout << char(i) << ": " << charOccurs[i] << std::endl;
-			output << char(i) << ": " << charOccurs[i] << std::endl;
+			output << char(i) << ": " << arr[i] << std::endl;
 		}
 	}
 	output.close();
