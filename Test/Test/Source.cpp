@@ -2,9 +2,11 @@
 #include <fstream>
 #include <string>
 
+const int possibleChars = 128;
+
 void calculateOccurs(int arr[], std::string line) {
 	for (int j = 0; j < line.length(); ++j) {
-		++arr[int(line[j]) - 32];
+		++arr[int(line[j])];
 	}
 }
 
@@ -28,14 +30,12 @@ int main() {
 
 	// create an array filled with 0
 
-	int charOccurs[95];
-	for (int i = 0; i < 95; ++i) {
+	int charOccurs[possibleChars];
+	for (int i = 0; i < possibleChars; ++i) {
 		charOccurs[i] = 0;
 	}
 	// ASCII chars have numbers from 0 to 127, but only <32, 126> are printable,
 	// 32 - space, 126 - tilde
-	// which is why there are only 95 'counters'
-	// thus control chars are not counted
 
 
 	// reads the text from file
@@ -56,10 +56,10 @@ int main() {
 	output.open("output.txt");
 
 	std::cout << "Creating output.txt file with char occurences in input file\n";
-	for (int i = 0; i < 95; ++i) {
+	for (int i = 0; i < possibleChars; ++i) {
 		if (charOccurs[i]) {
 			// std::cout << char(i) << ": " << charOccurs[i] << std::endl;
-			output << char(i + 32) << ": " << charOccurs[i] << std::endl;
+			output << char(i) << ": " << charOccurs[i] << std::endl;
 		}
 	}
   
