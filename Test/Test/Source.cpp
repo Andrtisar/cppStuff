@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include "ConsoleReader.h"
 
 const int possibleChars = 128;
 
@@ -50,10 +51,15 @@ void outputToFile(std::string outputPath, int arr[]) {
 int main() {
 	// gets the path to file as an input from command line
 	std::string path;
+	ConsoleReader reader;
 	std::cout << "Input file path:\n";
-	getline(std::cin, path);
-	// TODO - custom getline
-
+	if (reader.readConsole()) {
+		path = reader.buffer;
+	}
+	else {
+		exit(-1);
+	}
+	std::cout << "\n";
 	//path = "Debug/test.txt";
 
 	
