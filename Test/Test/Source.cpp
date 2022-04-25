@@ -5,74 +5,75 @@
 
 const int possibleChars = 128;
 
-void calculateOccurs(int arr[], std::string line) {
-	for (int j = 0; j < line.length(); ++j) {
-		++arr[int(line[j])];
+void calculateOccurs(int charOccurs[], std::string const &inputLine) {
+	for (int j = 0; j < inputLine.length(); ++j) {
+		++charOccurs[int(inputLine[j])];
 	}
 }
 
 
-bool calculateOccursInFile(std::string path, int arr[]) {
-	std::string line;
+bool calculateOccursInFile(std::string const &inputFilepath, int charOccurs[]) {
+	std::string inputLine;
 	std::ifstream input;
-	input.open(path);
+	input.open(inputFilepath);
 	if (!input.is_open()) {
-		std::cout << "Could not open the file with a path " << path;
 		return false;
 	}
 	while (!input.eof()) {
-		getline(input, line);
-		// std::cout << line << std::endl;
+		getline(input, inputLine);
 
 		// calculates the number of occurrences of each unique symbol
-		calculateOccurs(arr, line);
+		calculateOccurs(charOccurs, inputLine);
 	}
 	input.close();
 	return true;
 }
-// so this is not really reusable, and I'm not sure if that can be fixed, or if it even is necessary
 
 
-void outputToFile(std::string outputPath, int arr[]) {
+bool outputToFile(std::string const &outputFilePath, int charOccurs[]) {
 	std::ofstream output;
-	output.open(outputPath);
+	output.open(outputFilePath);
+	if (!output.is_open()) {
+		return false;
+	}
 
-	std::cout << "Creating output.txt file with char occurences in input file\n";
+	//make into log
+	std::cout << "Creating " << outputFilePath << " file with char occurences in input file" << std::endl;
 	for (int i = 0; i < possibleChars; ++i) {
-		if (arr[i]) {
-			// std::cout << char(i) << ": " << charOccurs[i] << std::endl;
-			output << char(i) << ": " << arr[i] << std::endl;
+		if (charOccurs[i]) {
+			output << char(i) << ": " << charOccurs[i] << std::endl;
 		}
 	}
 	output.close();
+	return true;
 }
 
 
 int main() {
 	// gets the path to file as an input from command line
-	std::string path;
+	std::string inputPath;
 	ConsoleReader reader;
-	std::cout << "Input file path:\n";
-	if (reader.readConsole()) {
-		path = reader.buffer;
+	std::string message = "Input file path:";
+	if (reader.readConsole(message)) {
+		inputPath = reader.getData();
 	}
 	else {
-		exit(-1);
+		return 0;
 	}
-	std::cout << "\n";
-	//path = "Debug/test.txt";
+	std::cout << std::endl;
 
 	
-	// create an array filled with 0
-	int charOccurs[possibleChars];
-	for (int i = 0; i < possibleChars; ++i) {
-		charOccurs[i] = 0;
-	}
+	int charOccurs[possibleChars] = {};
+	std::string outputPath = "debug/output.txt";
 
-	
-	// reads the text from file
-	if (calculateOccursInFile(path, charOccurs)) {
-		// outputs to another file
-		outputToFile("output.txt", charOccurs);
+
+	// reads file and calculates char occurs
+	if (calculateOccursInFile(inputPath, charOccurs)) {
+		if(!outputToFile(outputPath, charOccurs))
+			std::cout << "Could not create the file with a path " << outputPath << std::endl;
 	}
+	else {
+		std::cout << "Could not open the file with a path " << inputPath << std::endl;
+	}
+	return 0;
 }

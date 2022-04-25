@@ -127,6 +127,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="ConsoleReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleReader.h" />
