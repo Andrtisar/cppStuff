@@ -37,8 +37,7 @@ bool outputToFile(std::string const &outputFilePath, int charOccurs[]) {
 		return false;
 	}
 
-	//make into log
-	std::cout << "Creating " << outputFilePath << " file with char occurences in input file" << std::endl;
+	
 	for (int i = 0; i < possibleChars; ++i) {
 		if (charOccurs[i]) {
 			output << char(i) << ": " << charOccurs[i] << std::endl;
@@ -69,8 +68,13 @@ int main() {
 
 	// reads file and calculates char occurs
 	if (calculateOccursInFile(inputPath, charOccurs)) {
-		if(!outputToFile(outputPath, charOccurs))
+		if (outputToFile(outputPath, charOccurs)) {
+			//make into log
+			std::cout << "Creating " << outputPath << " file with char occurences in input file" << std::endl;
+		}
+		else {
 			std::cout << "Could not create the file with a path " << outputPath << std::endl;
+		}
 	}
 	else {
 		std::cout << "Could not open the file with a path " << inputPath << std::endl;
