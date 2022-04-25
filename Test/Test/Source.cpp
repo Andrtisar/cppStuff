@@ -69,9 +69,6 @@ int main() {
 		charOccurs[i] = 0;
 	}
 
-	// ASCII chars have numbers from 0 to 127, but only <32, 126> are printable,
-	// 32 - space, 126 - tilde
-
 	
 	// reads the text from file
 	if (calculateOccursInFile(path, charOccurs)) {

@@ -8,11 +8,15 @@ class ConsoleReader {
 		int readConsole() {
 			char esc = 27;
 			char enter = 13;
-			int c;
+			char backspace = 8;
+			char c;
 			do {
 				c = getch();
 				if (c != enter && c != esc) {
-					buffer += c;
+					if (c != backspace)
+						buffer += c;
+					else
+						buffer.pop_back();
 					putch(c);
 				}
 				// can getchar even get esc?
