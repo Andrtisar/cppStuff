@@ -11,13 +11,13 @@ class ConsoleReader {
 			char backspace = 8;
 			char c;
 			do {
-				c = getch();
+				c = _getch();
 				if (c != enter && c != esc) {
 					if (c != backspace)
 						buffer += c;
 					else
 						buffer.pop_back();
-					putch(c);
+					_putch(c);
 				}
 				// can getchar even get esc?
 				else
