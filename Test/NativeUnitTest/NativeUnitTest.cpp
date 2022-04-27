@@ -3,6 +3,7 @@
 #include "../Test/ConsoleReader.cpp"
 #include "../Test/Source.cpp"
 #include <isolator.h>
+#include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -54,10 +55,32 @@ namespace NativeUnitTestForMain
 			reader.readConsole("testing escape");
 			Assert::AreEqual(0, int(reader.getData().length()));
 		}
-		// TEST_METHOD(TestCalculateOccursInFile)
-		//{
-		//	// you can't fake ifstream with this framework :/
-		//}
+		 TEST_METHOD(TestCalculateOccursInFile)
+		{
+			// you can't fake ifstream with this framework :/
+			 std::ofstream testFile;
+			 std::string testPath = "testFile.txt";
+			 std::string testData = "testData";
+			 testFile.open(testPath);
+			 testFile << testData;
+			 Assert::IsTrue(testFile.is_open());
+			 testFile.close();
+
+
+			 int manualCharOccurs[possibleChars] = {};
+			 int testCharOccurs[possibleChars] = {};
+			 calculateOccurs(manualCharOccurs, testData);
+			 Assert::IsTrue(calculateOccursInFile(testPath, testCharOccurs));
+
+
+			 for (int i = 0; i < possibleChars; ++i) {
+				 Assert::AreEqual(manualCharOccurs[i], testCharOccurs[i]);
+			 }
+			 // comparing arrays doesn't work, have to compare each element
+
+			 
+			 remove(testPath.c_str());
+		}
 		TEST_METHOD_CLEANUP(TearDown)
 		{
 			ISOLATOR_CLEANUP();
