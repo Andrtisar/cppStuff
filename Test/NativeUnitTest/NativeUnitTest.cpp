@@ -3,7 +3,6 @@
 #include "../Test/ConsoleReader.cpp"
 #include "../Test/Source.cpp"
 #include <isolator.h>
-#include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
