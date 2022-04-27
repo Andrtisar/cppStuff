@@ -33,24 +33,31 @@ namespace NativeUnitTestForMain
 			// ConsoleReader* reader = FAKE<ConsoleReader>();
 			ConsoleReader reader;
 			FAKE_GLOBAL(_getch);
-			char testChars[] = {'a', 'b', 8, 13};
+			char testChars[] = {'a', 'b', backspace, 'c', enter};
 
-			// WHEN_CALLED(_getch()).Return(int(testChars[++i]));
-			// int num = TIMES_CALLED(_getch()) - 1;
-			//(TIMES_CALLED(_getch()))
+
+			// int * timesCalled = TIMES_CALLED(_getch());
+			// WHEN_CALLED(_getch()).Return(testChars[int(timesCalled)]);
+			// why doesn't this work ;(
+
 
 			WHEN_CALLED(_getch()).Return(testChars[0]);
 			WHEN_CALLED(_getch()).Return(testChars[1]);
 			WHEN_CALLED(_getch()).Return(testChars[2]);
 			WHEN_CALLED(_getch()).Return(testChars[3]);
-			reader.readConsole("test");
-			Assert::AreEqual(1, int(reader.getData().length()));
-			// I don't want to do this with pointers ;(
-		}
-		/*TEST_METHOD(TestCalculateOccursInFile)
-		{
+			WHEN_CALLED(_getch()).Return(testChars[4]);
+			reader.readConsole("testing some letters with backspace and enter");
+			Assert::AreEqual(2, int(reader.getData().length()));
 
-		}*/
+
+			WHEN_CALLED(_getch()).Return(esc);
+			reader.readConsole("testing escape");
+			Assert::AreEqual(0, int(reader.getData().length()));
+		}
+		// TEST_METHOD(TestCalculateOccursInFile)
+		//{
+		//	// you can't fake ifstream with this framework :/
+		//}
 		TEST_METHOD_CLEANUP(TearDown)
 		{
 			ISOLATOR_CLEANUP();
