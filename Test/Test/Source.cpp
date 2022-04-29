@@ -75,12 +75,6 @@ int main() {
 
 	main.info("Started app");
 
-	/*sub2.debug("Hiding solar panels");
-	sub2.error("Solar panels are blocked");
-	sub2.debug("Applying protective shield");
-	sub2.warn("Unfolding protective shield");
-	sub2.info("Solar panels are shielded");*/
-
 
 	// gets the path to file as an input from command line
 	std::string inputPath;

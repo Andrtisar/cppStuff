@@ -34,7 +34,7 @@ namespace NativeUnitTestForMain
 			// ConsoleReader* reader = FAKE<ConsoleReader>();
 			ConsoleReader reader;
 			FAKE_GLOBAL(_getch);
-			char testChars[] = {'a', 'b', backspace, 'c', enter};
+			char testChars[] = {'a', 'b', reader.backspace, 'c', reader.enter};
 
 
 			// int * timesCalled = TIMES_CALLED(_getch());
@@ -51,7 +51,7 @@ namespace NativeUnitTestForMain
 			Assert::AreEqual(2, int(reader.getData().length()));
 
 
-			WHEN_CALLED(_getch()).Return(esc);
+			WHEN_CALLED(_getch()).Return(reader.esc);
 			reader.readConsole("testing escape");
 			Assert::AreEqual(0, int(reader.getData().length()));
 		}
