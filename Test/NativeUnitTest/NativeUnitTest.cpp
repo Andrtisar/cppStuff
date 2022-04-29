@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "CppUnitTest.h"
+#include "../Test/CharOccurrences.cpp"
 #include "../Test/ConsoleReader.cpp"
 #include "../Test/Source.cpp"
 #include <isolator.h>
@@ -11,22 +12,23 @@ namespace NativeUnitTestForMain
 {
 	TEST_CLASS(MainTests)
 	{
+		CharOccurrences calculateChars;
 		std::string path = "D:/bruhmoment/Abyss/test.txt";
-		int charOccurs[possibleChars] = {};
+		int * charOccurs = calculateChars.getCharOccurs();
 	public:
 		
 		TEST_METHOD(TestIfInputPathExists)
 		{
-			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
+			Assert::IsTrue(calculateChars.calculateOccursInFile(path, charOccurs));
 		}
 		TEST_METHOD(TestIfOutputPathExists)
 		{
-			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
+			Assert::IsTrue(calculateChars.calculateOccursInFile(path, charOccurs));
 		}
 		TEST_METHOD(TestCalculateOccursInLine) 
 		{
 			std::string line = "aaA  ";
-			calculateOccurs(charOccurs, line);
+			calculateChars.calculateOccurs(charOccurs, line);
 			Assert::AreEqual(2, charOccurs[int('a')]);
 		}
 		TEST_METHOD(TestConsoleReader)
@@ -66,14 +68,17 @@ namespace NativeUnitTestForMain
 			 Assert::IsTrue(testFile.is_open());
 			 testFile.close();
 
+			 // int possibleCharsForTest = calculateChars.getPossibleChars();
+			 const int possibleCharsForTest = 128;
+			 // not sure how to use original const for these arrays
 
-			 int manualCharOccurs[possibleChars] = {};
-			 int testCharOccurs[possibleChars] = {};
-			 calculateOccurs(manualCharOccurs, testData);
-			 Assert::IsTrue(calculateOccursInFile(testPath, testCharOccurs));
+			 int manualCharOccurs[possibleCharsForTest] = {};
+			 int testCharOccurs[possibleCharsForTest] = {};
+			 calculateChars.calculateOccurs(manualCharOccurs, testData);
+			 Assert::IsTrue(calculateChars.calculateOccursInFile(testPath, testCharOccurs));
 
 
-			 for (int i = 0; i < possibleChars; ++i) {
+			 for (int i = 0; i < possibleCharsForTest; ++i) {
 				 Assert::AreEqual(manualCharOccurs[i], testCharOccurs[i]);
 			 }
 			 // comparing arrays doesn't work, have to compare each element

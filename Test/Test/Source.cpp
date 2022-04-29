@@ -1,10 +1,11 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <stdio.h>
+//#include <stdio.h>
 
 
 #include "ConsoleReader.h"
+#include "CharOccurrences.h"
 
 #include <log4cpp/Portability.hh>
 #include <log4cpp/PropertyConfigurator.hh>
@@ -18,49 +19,6 @@
 #include <log4cpp/NDC.hh>
 
 
-const int possibleChars = 128;
-
-void calculateOccurs(int charOccurs[], std::string const &inputLine) {
-	for (int j = 0; j < inputLine.length(); ++j) {
-		++charOccurs[int(inputLine[j])];
-	}
-}
-
-
-bool calculateOccursInFile(std::string const &inputFilepath, int charOccurs[]) {
-	std::string inputLine;
-	std::ifstream input;
-	input.open(inputFilepath);
-	if (!input.is_open()) {
-		return false;
-	}
-	while (!input.eof()) {
-		getline(input, inputLine);
-
-		// calculates the number of occurrences of each unique symbol
-		calculateOccurs(charOccurs, inputLine);
-	}
-	input.close();
-	return true;
-}
-
-
-bool outputToFile(std::string const &outputFilePath, int charOccurs[]) {
-	std::ofstream output;
-	output.open(outputFilePath);
-	if (!output.is_open()) {
-		return false;
-	}
-
-
-	for (int i = 0; i < possibleChars; ++i) {
-		if (charOccurs[i]) {
-			output << char(i) << ": " << charOccurs[i] << std::endl;
-		}
-	}
-	output.close();
-	return true;
-}
 
 
 int main() {
@@ -91,13 +49,15 @@ int main() {
 	std::cout << std::endl;
 
 
-	int charOccurs[possibleChars] = {};
+	CharOccurrences calculateChars;
+	int * charOccurs = calculateChars.getCharOccurs();
+
 	std::string outputPath = "debug/output.txt";
 
 
 	// reads file and calculates char occurs
-	if (calculateOccursInFile(inputPath, charOccurs)) {
-		if (outputToFile(outputPath, charOccurs)) {
+	if (calculateChars.calculateOccursInFile(inputPath, charOccurs)) {
+		if (calculateChars.outputToFile(outputPath, charOccurs)) {
 			main.info("Creating " + outputPath + " file with char occurences in input file.");
 		}
 		else {
