@@ -10,17 +10,23 @@ namespace NativeUnitTestForMain
 {
 	TEST_CLASS(MainTests)
 	{
-		std::string path = "D:/bruhmoment/Abyss/test.txt";
 		int charOccurs[possibleChars] = {};
 	public:
 		
-		TEST_METHOD(TestIfInputPathExists)
+		TEST_METHOD(TestIfPathExists)
 		{
+			std::ofstream testFile;
+			std::string path = "testFile.txt";
+			std::string testData = "testData";
+			testFile.open(path);
+			testFile << testData;
+			Assert::IsTrue(testFile.is_open());
+			testFile.close();
+
+
+
 			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
-		}
-		TEST_METHOD(TestIfOutputPathExists)
-		{
-			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
+			remove(path.c_str());
 		}
 		TEST_METHOD(TestCalculateOccursInLine) 
 		{
