@@ -1,5 +1,8 @@
 #pragma once
 
+#include <log4cpp/PropertyConfigurator.hh>
+#include <log4cpp/Category.hh>
+
 const char esc = 27;
 const char enter = 13;
 const char backspace = 8;
