@@ -37,8 +37,7 @@ int main() {
 	// gets the path to file as an input from command line
 	std::string inputPath;
 	ConsoleReader reader;
-	std::string message = "Input file path:";
-	if (reader.readConsole(message)) {
+	if (reader.readConsole("Input file path:")) {
 		inputPath = reader.getData();
 	}
 	else {
@@ -51,7 +50,7 @@ int main() {
 
 	CharOccurrences calculateChars;
 
-	std::string outputPath = "debug/output.txt";
+	std::string outputPath = "Output/output.txt";
 
 
 	// reads file and calculates char occurs

@@ -9,5 +9,5 @@ class ConsoleReader {
 		const char enter = 13;
 		const char backspace = 8;
 		std::string getData();
-		int readConsole(std::string const &message);
+		int readConsole(const char * message);
 };

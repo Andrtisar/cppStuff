@@ -15,12 +15,12 @@
 #include <log4cpp/BasicLayout.hh>
 #include <log4cpp/Priority.hh>
 
-int ConsoleReader::readConsole(std::string const &message) {
+int ConsoleReader::readConsole(const char * message) {
 	log4cpp::Category& reader =
 		log4cpp::Category::getInstance(std::string("consoleReader"));
 
 	reader.debug("Entering console reader");
-	std::cout << message.c_str() << std::endl;
+	std::cout << message << std::endl;
 	char c;
 	c = _getch();
 	reader.debug("Received char: " + std::to_string(c));
