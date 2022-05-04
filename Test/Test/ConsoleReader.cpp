@@ -15,9 +15,6 @@
 #include <log4cpp/Priority.hh>
 
 int ConsoleReader::readConsole(std::string const &message) {
-	log4cpp::Category& reader =
-		log4cpp::Category::getInstance(std::string("consoleReader"));
-
 	reader.debug("Entering console reader");
 	std::cout << message.c_str() << std::endl;
 	char c;
