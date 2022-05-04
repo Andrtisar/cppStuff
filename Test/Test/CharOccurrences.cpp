@@ -10,14 +10,14 @@ int CharOccurrences::getPossibleChars() {
 	return possibleChars; 
 };
 
-void CharOccurrences::calculateOccurs(int charOccurs[], std::string const &inputLine) {
+void CharOccurrences::calculateOccurs(std::string const &inputLine) {
 	for (int j = 0; j < inputLine.length(); ++j) {
 		++charOccurs[int(inputLine[j])];
 	}
 }
 
 
-bool CharOccurrences::calculateOccursInFile(std::string const &inputFilepath, int charOccurs[]) {
+bool CharOccurrences::calculateOccursInFile(std::string const &inputFilepath) {
 	std::string inputLine;
 	std::ifstream input;
 	input.open(inputFilepath);
@@ -28,14 +28,14 @@ bool CharOccurrences::calculateOccursInFile(std::string const &inputFilepath, in
 		getline(input, inputLine);
 
 		// calculates the number of occurrences of each unique symbol
-		calculateOccurs(charOccurs, inputLine);
+		calculateOccurs(inputLine);
 	}
 	input.close();
 	return true;
 }
 
 
-bool CharOccurrences::outputToFile(std::string const &outputFilePath, int charOccurs[]) {
+bool CharOccurrences::outputToFile(std::string const &outputFilePath) {
 	std::ofstream output;
 	output.open(outputFilePath);
 	if (!output.is_open()) {
@@ -50,8 +50,4 @@ bool CharOccurrences::outputToFile(std::string const &outputFilePath, int charOc
 	}
 	output.close();
 	return true;
-}
-
-int * CharOccurrences::getCharOccurs() {
-	return charOccurs;
 }

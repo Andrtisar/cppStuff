@@ -50,14 +50,13 @@ int main() {
 
 
 	CharOccurrences calculateChars;
-	int * charOccurs = calculateChars.getCharOccurs();
 
 	std::string outputPath = "debug/output.txt";
 
 
 	// reads file and calculates char occurs
-	if (calculateChars.calculateOccursInFile(inputPath, charOccurs)) {
-		if (calculateChars.outputToFile(outputPath, charOccurs)) {
+	if (calculateChars.calculateOccursInFile(inputPath)) {
+		if (calculateChars.outputToFile(outputPath)) {
 			main.info("Creating " + outputPath + " file with char occurences in input file.");
 		}
 		else {
