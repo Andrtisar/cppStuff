@@ -14,21 +14,23 @@ namespace NativeUnitTestForMain
 	{
 		CharOccurrences calculateChars;
 		std::string path = "D:/bruhmoment/Abyss/test.txt";
-		int * charOccurs = calculateChars.getCharOccurs();
+
 	public:
 		
 		TEST_METHOD(TestIfInputPathExists)
 		{
-			Assert::IsTrue(calculateChars.calculateOccursInFile(path, charOccurs));
+			Assert::IsTrue(calculateChars.calculateOccursInFile(path));
 		}
 		TEST_METHOD(TestIfOutputPathExists)
 		{
-			Assert::IsTrue(calculateChars.calculateOccursInFile(path, charOccurs));
+			Assert::IsTrue(calculateChars.calculateOccursInFile(path));
 		}
 		TEST_METHOD(TestCalculateOccursInLine) 
 		{
+			static const int possibleCharsForTest = calculateChars.possibleChars;
+			int charOccurs[possibleCharsForTest];
 			std::string line = "aaA  ";
-			calculateChars.calculateOccurs(charOccurs, line);
+			calculateChars.calculateOccurs(line, charOccurs);
 			Assert::AreEqual(2, charOccurs[int('a')]);
 		}
 		TEST_METHOD(TestConsoleReader)
@@ -69,12 +71,12 @@ namespace NativeUnitTestForMain
 			 testFile.close();
 
 			 // int possibleCharsForTest = calculateChars.getPossibleChars();
-			 const int possibleCharsForTest = 128;
-			 // not sure how to use original const for these arrays
+
+			 static const int possibleCharsForTest = calculateChars.possibleChars;
 
 			 int manualCharOccurs[possibleCharsForTest] = {};
 			 int testCharOccurs[possibleCharsForTest] = {};
-			 calculateChars.calculateOccurs(manualCharOccurs, testData);
+			 calculateChars.calculateOccurs(testData, manualCharOccurs);
 			 Assert::IsTrue(calculateChars.calculateOccursInFile(testPath, testCharOccurs));
 
 
