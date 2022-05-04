@@ -1,0 +1,1 @@
+why can't I add an empty folder to git?
