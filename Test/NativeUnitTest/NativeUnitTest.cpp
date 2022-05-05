@@ -1,8 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../Test/CharOccurrences.cpp"
-#include "../Test/ConsoleReader.cpp"
-#include "../Test/Source.cpp"
+#include "IncludesForUnitTest.h"
+
 #include <isolator.h>
 #include <string>
 
