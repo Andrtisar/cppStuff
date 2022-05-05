@@ -2,8 +2,9 @@
 #include <conio.h>
 #include "ConsoleReader.h"
 
-int ConsoleReader::readConsole(std::string const &message) {
-	std::cout << message.c_str() << std::endl;
+
+int ConsoleReader::readConsole(std::string const &prompt) {
+	std::cout << prompt.c_str() << std::endl;
 	// make into log
 	char c;
 	c = _getch();
@@ -20,6 +21,6 @@ int ConsoleReader::readConsole(std::string const &message) {
 	return buffer.length();
 };
 
-std::string ConsoleReader::getData() { 
+const std::string ConsoleReader::getData() {
 	return buffer; 
 };

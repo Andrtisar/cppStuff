@@ -6,8 +6,8 @@ const char backspace = 8;
 
 class ConsoleReader {
 	private:
-		std::string buffer = "";
+		std::string buffer;
 	public:
-		std::string getData();
-		int readConsole(std::string const &message);
+		const std::string getData();
+		int readConsole(std::string const &prompt);
 };
