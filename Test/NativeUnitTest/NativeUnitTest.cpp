@@ -12,12 +12,9 @@ namespace NativeUnitTestForMain
 		
 		TEST_METHOD(TestIfPathExists)
 		{
-			int charOccurs[possibleChars];
-			for (int i = 0; i < possibleChars; ++i) {
-				charOccurs[i] = 0;
-			}
-			Assert::IsFalse(calculateOccursInFile("randompath.txt", {}));
-			Assert::IsTrue(calculateOccursInFile("D:/bruhmoment/Abyss/ToDo.txt", charOccurs));
+			int charOccurs[possibleChars] = {};
+			std::string path = "D:/bruhmoment/Abyss/ToDo.txt";
+			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
 		}
 	};
 }
