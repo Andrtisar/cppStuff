@@ -2,6 +2,7 @@
 #include <conio.h>
 #include "ConsoleReader.h"
 
+
 int ConsoleReader::readConsole(std::string const &prompt) {
 	std::cout << prompt.c_str() << std::endl;
 	// make into log
