@@ -40,11 +40,11 @@ bool CharOccurrences::calculateOccursInFile(std::string const &inputFilepath, in
 // ... also I just realised that this means I am technically not testing all methods
 // and use different for testing and actually running the app.
 // Yeah, this is just a mess at best, a crime against humanity at worst.
-void CharOccurrences::calculateOccurs(std::string const &inputLine) {
-	for (int j = 0; j < inputLine.length(); ++j) {
-		++charOccurs[int(inputLine[j])];
-	}
-}
+//void CharOccurrences::calculateOccurs(std::string const &inputLine) {
+//	for (int j = 0; j < inputLine.length(); ++j) {
+//		++charOccurs[int(inputLine[j])];
+//	}
+//}
 
 
 bool CharOccurrences::calculateOccursInFile(std::string const &inputFilepath) {
@@ -58,7 +58,7 @@ bool CharOccurrences::calculateOccursInFile(std::string const &inputFilepath) {
 		getline(input, inputLine);
 
 		// calculates the number of occurrences of each unique symbol
-		calculateOccurs(inputLine);
+		calculateOccurs(inputLine, charOccurs);
 	}
 	input.close();
 	return true;

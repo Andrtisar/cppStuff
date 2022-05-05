@@ -28,7 +28,7 @@ namespace NativeUnitTestForMain
 		TEST_METHOD(TestCalculateOccursInLine) 
 		{
 			static const int possibleCharsForTest = calculateChars.possibleChars;
-			int charOccurs[possibleCharsForTest];
+			int charOccurs[possibleCharsForTest] = {};
 			std::string line = "aaA  ";
 			calculateChars.calculateOccurs(line, charOccurs);
 			Assert::AreEqual(2, charOccurs[int('a')]);
