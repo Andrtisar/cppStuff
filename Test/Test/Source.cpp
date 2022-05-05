@@ -1,7 +1,16 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <stdio.h>
+
+
 #include "ConsoleReader.h"
+
+
+#include <log4cpp/PropertyConfigurator.hh>
+#include <log4cpp/Category.hh>
+
 
 const int possibleChars = 128;
 
@@ -37,7 +46,7 @@ bool outputToFile(std::string const &outputFilePath, int charOccurs[]) {
 		return false;
 	}
 
-	
+
 	for (int i = 0; i < possibleChars; ++i) {
 		if (charOccurs[i]) {
 			output << char(i) << ": " << charOccurs[i] << std::endl;
@@ -49,6 +58,18 @@ bool outputToFile(std::string const &outputFilePath, int charOccurs[]) {
 
 
 int main() {
+	// Logging stuff
+	std::string initFileName = "log4cpp.properties";
+	log4cpp::PropertyConfigurator::configure(initFileName);
+
+	log4cpp::Category& root = log4cpp::Category::getRoot();
+
+	log4cpp::Category& main =
+		log4cpp::Category::getInstance(std::string("main"));
+
+	main.info("Started app");
+
+
 	// gets the path to file as an input from command line
 	std::string inputPath;
 	ConsoleReader reader;
@@ -57,11 +78,13 @@ int main() {
 		inputPath = reader.getData();
 	}
 	else {
+		main.info("Exited from app");
+		log4cpp::Category::shutdown();
 		return 0;
 	}
 	std::cout << std::endl;
 
-	
+
 	int charOccurs[possibleChars] = {};
 	std::string outputPath = "debug/output.txt";
 
@@ -69,15 +92,15 @@ int main() {
 	// reads file and calculates char occurs
 	if (calculateOccursInFile(inputPath, charOccurs)) {
 		if (outputToFile(outputPath, charOccurs)) {
-			//make into log
-			std::cout << "Creating " << outputPath << " file with char occurences in input file" << std::endl;
+			main.info("Creating " + outputPath + " file with char occurences in input file.");
 		}
 		else {
-			std::cout << "Could not create the file with a path " << outputPath << std::endl;
+			main.error("Could not create the file with a path " + outputPath);
 		}
 	}
 	else {
-		std::cout << "Could not open the file with a path " << inputPath << std::endl;
+		main.error("Could not open the file with a path " + inputPath);
 	}
+	log4cpp::Category::shutdown();
 	return 0;
 }

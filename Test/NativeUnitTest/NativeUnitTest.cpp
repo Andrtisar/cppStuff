@@ -25,7 +25,6 @@ namespace NativeUnitTestForMain
 			testFile.close();
 
 
-
 			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
 			remove(path.c_str());
 		}
@@ -48,6 +47,7 @@ namespace NativeUnitTestForMain
 			WHEN_CALLED(_getch()).Return(testChars[3]);
 			WHEN_CALLED(_getch()).Return(testChars[4]);
 			reader.readConsole("testing some letters with backspace and enter");
+
 			std::string receivedBuffer = reader.getData();
 
 
@@ -87,7 +87,6 @@ namespace NativeUnitTestForMain
 			 Assert::IsTrue(std::equal(
 				 std::begin(manualCharOccurs), std::end(manualCharOccurs), std::begin((testCharOccurs))
 			 ));
-
 			 
 			 remove(testPath.c_str());
 		}
