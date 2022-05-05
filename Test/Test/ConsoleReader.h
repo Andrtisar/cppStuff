@@ -14,6 +14,6 @@ class ConsoleReader {
 		log4cpp::Category& reader =
 			log4cpp::Category::getInstance(std::string("consoleReader"));
 	public:
-		std::string getData();
-		int readConsole(std::string const &message);
+		const std::string getData();
+		int readConsole(std::string const &prompt);
 };

@@ -1,16 +1,16 @@
 #pragma once
 #include <iostream>
 #include <conio.h>
-#include <string>
 
 #include "ConsoleReader.h"
 
-int ConsoleReader::readConsole(std::string const &message) {
+int ConsoleReader::readConsole(std::string const &prompt) {
 	reader.debug("Entering console reader");
-	std::cout << message.c_str() << std::endl;
+	std::cout << prompt.c_str() << std::endl;
 	char c;
 	c = _getch();
 	reader.debug("Received char: " + std::to_string(c));
+
 	while (c != enter && c != esc) {
 		if (c != backspace)
 			buffer += c;
@@ -26,6 +26,6 @@ int ConsoleReader::readConsole(std::string const &message) {
 	return buffer.length();
 };
 
-std::string ConsoleReader::getData() { 
+const std::string ConsoleReader::getData() { 
 	return buffer; 
 };

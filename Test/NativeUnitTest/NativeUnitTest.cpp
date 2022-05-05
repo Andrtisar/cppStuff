@@ -3,7 +3,6 @@
 #include "../Test/ConsoleReader.cpp"
 #include "../Test/Source.cpp"
 #include <isolator.h>
-#include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -11,17 +10,23 @@ namespace NativeUnitTestForMain
 {
 	TEST_CLASS(MainTests)
 	{
-		std::string path = "D:/bruhmoment/Abyss/test.txt";
 		int charOccurs[possibleChars] = {};
+		ConsoleReader reader;
 	public:
 		
-		TEST_METHOD(TestIfInputPathExists)
+		TEST_METHOD(TestIfPathExists)
 		{
+			std::ofstream testFile;
+			std::string path = "testFile.txt";
+			std::string testData = "testData";
+			testFile.open(path);
+			testFile << testData;
+			Assert::IsTrue(testFile.is_open());
+			testFile.close();
+
+
 			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
-		}
-		TEST_METHOD(TestIfOutputPathExists)
-		{
-			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
+			remove(path.c_str());
 		}
 		TEST_METHOD(TestCalculateOccursInLine) 
 		{
@@ -32,14 +37,8 @@ namespace NativeUnitTestForMain
 		TEST_METHOD(TestConsoleReader)
 		{
 			// ConsoleReader* reader = FAKE<ConsoleReader>();
-			ConsoleReader reader;
 			FAKE_GLOBAL(_getch);
 			char testChars[] = {'a', 'b', backspace, 'c', enter};
-
-
-			// int * timesCalled = TIMES_CALLED(_getch());
-			// WHEN_CALLED(_getch()).Return(testChars[int(timesCalled)]);
-			// why doesn't this work ;(
 
 
 			WHEN_CALLED(_getch()).Return(testChars[0]);
@@ -48,14 +47,23 @@ namespace NativeUnitTestForMain
 			WHEN_CALLED(_getch()).Return(testChars[3]);
 			WHEN_CALLED(_getch()).Return(testChars[4]);
 			reader.readConsole("testing some letters with backspace and enter");
-			Assert::AreEqual(2, int(reader.getData().length()));
+
+			std::string receivedBuffer = reader.getData();
 
 
+			// Expected output: "ac"
+			Assert::AreEqual(2, int(receivedBuffer.length()));
+			Assert::AreEqual('a', receivedBuffer[0]);
+			Assert::AreEqual('c', receivedBuffer[1]);
+		}
+		TEST_METHOD(TestConsoleReaderEsc)
+		{
+			FAKE_GLOBAL(_getch);
 			WHEN_CALLED(_getch()).Return(esc);
 			reader.readConsole("testing escape");
 			Assert::AreEqual(0, int(reader.getData().length()));
 		}
-		 TEST_METHOD(TestCalculateOccursInFile)
+		TEST_METHOD(TestCalculateOccursInFile)
 		{
 			// you can't fake ifstream with this framework :/
 			 std::ofstream testFile;
@@ -73,11 +81,12 @@ namespace NativeUnitTestForMain
 			 Assert::IsTrue(calculateOccursInFile(testPath, testCharOccurs));
 
 
-			 for (int i = 0; i < possibleChars; ++i) {
+			 /*for (int i = 0; i < possibleChars; ++i) {
 				 Assert::AreEqual(manualCharOccurs[i], testCharOccurs[i]);
-			 }
-			 // comparing arrays doesn't work, have to compare each element
-
+			 }*/
+			 Assert::IsTrue(std::equal(
+				 std::begin(manualCharOccurs), std::end(manualCharOccurs), std::begin((testCharOccurs))
+			 ));
 			 
 			 remove(testPath.c_str());
 		}
