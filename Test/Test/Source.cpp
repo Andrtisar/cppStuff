@@ -1,24 +1,14 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
 //#include <stdio.h>
 
-
 #include "ConsoleReader.h"
 #include "CharOccurrences.h"
 
-#include <log4cpp/Portability.hh>
 #include <log4cpp/PropertyConfigurator.hh>
 #include <log4cpp/Category.hh>
-#include <log4cpp/Appender.hh>
-#include <log4cpp/FileAppender.hh>
-#include <log4cpp/OstreamAppender.hh>
-#include <log4cpp/Layout.hh>
-#include <log4cpp/BasicLayout.hh>
-#include <log4cpp/Priority.hh>
-#include <log4cpp/NDC.hh>
-
-
 
 
 int main() {
@@ -34,7 +24,6 @@ int main() {
 	main.info("Started app");
 
 
-	// gets the path to file as an input from command line
 	std::string inputPath;
 	ConsoleReader reader;
 	if (reader.readConsole("Input file path:")) {
@@ -47,13 +36,10 @@ int main() {
 	}
 	std::cout << std::endl;
 
-
 	CharOccurrences calculateChars;
 
 	std::string outputPath = "Output/output.txt";
 
-
-	// reads file and calculates char occurs
 	if (calculateChars.calculateOccursInFile(inputPath)) {
 		if (calculateChars.outputToFile(outputPath)) {
 			main.info("Creating " + outputPath + " file with char occurences in input file.");

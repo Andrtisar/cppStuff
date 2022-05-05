@@ -3,7 +3,6 @@
 #include "IncludesForUnitTest.h"
 
 #include <isolator.h>
-#include <string>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
@@ -12,37 +11,36 @@ namespace NativeUnitTestForMain
 	TEST_CLASS(MainTests)
 	{
 		CharOccurrences calculateChars;
-		std::string path = "D:/bruhmoment/Abyss/test.txt";
-
+		ConsoleReader reader;
+    
 	public:
 		
-		TEST_METHOD(TestIfInputPathExists)
+		TEST_METHOD(TestIfPathExists)
 		{
-			Assert::IsTrue(calculateChars.calculateOccursInFile(path));
-		}
-		TEST_METHOD(TestIfOutputPathExists)
-		{
-			Assert::IsTrue(calculateChars.calculateOccursInFile(path));
+			std::ofstream testFile;
+			std::string path = "testFile.txt";
+			std::string testData = "testData";
+			testFile.open(path);
+			testFile << testData;
+			Assert::IsTrue(testFile.is_open());
+			testFile.close();
+
+
+			Assert::IsTrue(calculateOccursInFile(path));
+			remove(path.c_str());
 		}
 		TEST_METHOD(TestCalculateOccursInLine) 
 		{
-			static const int possibleCharsForTest = calculateChars.possibleChars;
+      static const int possibleCharsForTest = calculateChars.possibleChars;
 			int charOccurs[possibleCharsForTest] = {};
 			std::string line = "aaA  ";
-			calculateChars.calculateOccurs(line, charOccurs);
+			calculateOccurs(line, charOccurs);
 			Assert::AreEqual(2, charOccurs[int('a')]);
 		}
 		TEST_METHOD(TestConsoleReader)
 		{
-			// ConsoleReader* reader = FAKE<ConsoleReader>();
-			ConsoleReader reader;
 			FAKE_GLOBAL(_getch);
-			char testChars[] = {'a', 'b', reader.backspace, 'c', reader.enter};
-
-
-			// int * timesCalled = TIMES_CALLED(_getch());
-			// WHEN_CALLED(_getch()).Return(testChars[int(timesCalled)]);
-			// why doesn't this work ;(
+			char testChars[] = {'a', 'b', backspace, 'c', enter};
 
 
 			WHEN_CALLED(_getch()).Return(testChars[0]);
@@ -51,16 +49,24 @@ namespace NativeUnitTestForMain
 			WHEN_CALLED(_getch()).Return(testChars[3]);
 			WHEN_CALLED(_getch()).Return(testChars[4]);
 			reader.readConsole("testing some letters with backspace and enter");
-			Assert::AreEqual(2, int(reader.getData().length()));
+
+			std::string receivedBuffer = reader.getData();
 
 
-			WHEN_CALLED(_getch()).Return(reader.esc);
+			// Expected output: "ac"
+			Assert::AreEqual(2, int(receivedBuffer.length()));
+			Assert::AreEqual('a', receivedBuffer[0]);
+			Assert::AreEqual('c', receivedBuffer[1]);
+		}
+		TEST_METHOD(TestConsoleReaderEsc)
+		{
+			FAKE_GLOBAL(_getch);
+			WHEN_CALLED(_getch()).Return(esc);
 			reader.readConsole("testing escape");
 			Assert::AreEqual(0, int(reader.getData().length()));
 		}
-		 TEST_METHOD(TestCalculateOccursInFile)
+		TEST_METHOD(TestCalculateOccursInFile)
 		{
-			// you can't fake ifstream with this framework :/
 			 std::ofstream testFile;
 			 std::string testPath = "testFile.txt";
 			 std::string testData = "testData";
@@ -69,7 +75,6 @@ namespace NativeUnitTestForMain
 			 Assert::IsTrue(testFile.is_open());
 			 testFile.close();
 
-			 // int possibleCharsForTest = calculateChars.getPossibleChars();
 
 			 static const int possibleCharsForTest = calculateChars.possibleChars;
 
@@ -78,12 +83,10 @@ namespace NativeUnitTestForMain
 			 calculateChars.calculateOccurs(testData, manualCharOccurs);
 			 Assert::IsTrue(calculateChars.calculateOccursInFile(testPath, testCharOccurs));
 
-
-			 for (int i = 0; i < possibleCharsForTest; ++i) {
-				 Assert::AreEqual(manualCharOccurs[i], testCharOccurs[i]);
-			 }
-			 // comparing arrays doesn't work, have to compare each element
-
+			 
+			 Assert::IsTrue(std::equal(
+				 std::begin(manualCharOccurs), std::end(manualCharOccurs), std::begin((testCharOccurs))
+			 ));
 			 
 			 remove(testPath.c_str());
 		}

@@ -36,4 +36,7 @@
   <ItemGroup>
     <None Include="log4cpp.properties" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="log4cpp.properties" />
+  </ItemGroup>
 </Project>
