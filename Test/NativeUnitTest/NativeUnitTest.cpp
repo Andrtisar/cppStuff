@@ -26,7 +26,7 @@ namespace NativeUnitTestForMain
 			testFile.close();
 
 
-			Assert::IsTrue(calculateOccursInFile(path));
+			Assert::IsTrue(calculateChars.calculateOccursInFile(path));
 			remove(path.c_str());
 		}
 		TEST_METHOD(TestCalculateOccursInLine) 
@@ -34,13 +34,13 @@ namespace NativeUnitTestForMain
       static const int possibleCharsForTest = calculateChars.possibleChars;
 			int charOccurs[possibleCharsForTest] = {};
 			std::string line = "aaA  ";
-			calculateOccurs(line, charOccurs);
+			calculateChars.calculateOccurs(line, charOccurs);
 			Assert::AreEqual(2, charOccurs[int('a')]);
 		}
 		TEST_METHOD(TestConsoleReader)
 		{
 			FAKE_GLOBAL(_getch);
-			char testChars[] = {'a', 'b', backspace, 'c', enter};
+			char testChars[] = {'a', 'b', reader.backspace, 'c', reader.enter};
 
 
 			WHEN_CALLED(_getch()).Return(testChars[0]);
@@ -61,7 +61,7 @@ namespace NativeUnitTestForMain
 		TEST_METHOD(TestConsoleReaderEsc)
 		{
 			FAKE_GLOBAL(_getch);
-			WHEN_CALLED(_getch()).Return(esc);
+			WHEN_CALLED(_getch()).Return(reader.esc);
 			reader.readConsole("testing escape");
 			Assert::AreEqual(0, int(reader.getData().length()));
 		}
