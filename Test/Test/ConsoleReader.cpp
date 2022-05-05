@@ -4,9 +4,9 @@
 
 #include "ConsoleReader.h"
 
-int ConsoleReader::readConsole(std::string const &prompt) {
+int ConsoleReader::readConsole(const char * prompt) {
 	reader.debug("Entering console reader");
-	std::cout << prompt.c_str() << std::endl;
+	std::cout << prompt << std::endl;
 	char c;
 	c = _getch();
 	reader.debug("Received char: " + std::to_string(c));
@@ -25,6 +25,7 @@ int ConsoleReader::readConsole(std::string const &prompt) {
 	reader.debug("Exiting console reader");
 	return buffer.length();
 };
+
 
 const std::string ConsoleReader::getData() { 
 	return buffer; 

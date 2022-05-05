@@ -129,10 +129,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CharOccurrences.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="ConsoleReader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CharOccurrences.h" />
     <ClInclude Include="ConsoleReader.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "CppUnitTest.h"
-#include "../Test/ConsoleReader.cpp"
-#include "../Test/Source.cpp"
+#include "IncludesForUnitTest.h"
+
 #include <isolator.h>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
@@ -10,8 +10,9 @@ namespace NativeUnitTestForMain
 {
 	TEST_CLASS(MainTests)
 	{
-		int charOccurs[possibleChars] = {};
+		CharOccurrences calculateChars;
 		ConsoleReader reader;
+    
 	public:
 		
 		TEST_METHOD(TestIfPathExists)
@@ -25,18 +26,19 @@ namespace NativeUnitTestForMain
 			testFile.close();
 
 
-			Assert::IsTrue(calculateOccursInFile(path, charOccurs));
+			Assert::IsTrue(calculateOccursInFile(path));
 			remove(path.c_str());
 		}
 		TEST_METHOD(TestCalculateOccursInLine) 
 		{
+      static const int possibleCharsForTest = calculateChars.possibleChars;
+			int charOccurs[possibleCharsForTest] = {};
 			std::string line = "aaA  ";
-			calculateOccurs(charOccurs, line);
+			calculateOccurs(line, charOccurs);
 			Assert::AreEqual(2, charOccurs[int('a')]);
 		}
 		TEST_METHOD(TestConsoleReader)
 		{
-			// ConsoleReader* reader = FAKE<ConsoleReader>();
 			FAKE_GLOBAL(_getch);
 			char testChars[] = {'a', 'b', backspace, 'c', enter};
 
@@ -65,7 +67,6 @@ namespace NativeUnitTestForMain
 		}
 		TEST_METHOD(TestCalculateOccursInFile)
 		{
-			// you can't fake ifstream with this framework :/
 			 std::ofstream testFile;
 			 std::string testPath = "testFile.txt";
 			 std::string testData = "testData";
@@ -75,15 +76,14 @@ namespace NativeUnitTestForMain
 			 testFile.close();
 
 
-			 int manualCharOccurs[possibleChars] = {};
-			 int testCharOccurs[possibleChars] = {};
-			 calculateOccurs(manualCharOccurs, testData);
-			 Assert::IsTrue(calculateOccursInFile(testPath, testCharOccurs));
+			 static const int possibleCharsForTest = calculateChars.possibleChars;
 
+			 int manualCharOccurs[possibleCharsForTest] = {};
+			 int testCharOccurs[possibleCharsForTest] = {};
+			 calculateChars.calculateOccurs(testData, manualCharOccurs);
+			 Assert::IsTrue(calculateChars.calculateOccursInFile(testPath, testCharOccurs));
 
-			 /*for (int i = 0; i < possibleChars; ++i) {
-				 Assert::AreEqual(manualCharOccurs[i], testCharOccurs[i]);
-			 }*/
+			 
 			 Assert::IsTrue(std::equal(
 				 std::begin(manualCharOccurs), std::end(manualCharOccurs), std::begin((testCharOccurs))
 			 ));
