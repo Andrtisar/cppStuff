@@ -1,78 +1,56 @@
+#pragma once
 #include <iostream>
 #include <fstream>
 #include <string>
+//#include <stdio.h>
+
 #include "ConsoleReader.h"
+#include "CharOccurrences.h"
 
-const int possibleChars = 128;
-
-void calculateOccurs(int arr[], std::string line) {
-	for (int j = 0; j < line.length(); ++j) {
-		++arr[int(line[j])];
-	}
-}
-
-
-bool calculateOccursInFile(std::string path, int arr[]) {
-	std::string line;
-	std::ifstream input;
-	input.open(path);
-	if (!input.is_open()) {
-		std::cout << "Could not open the file with a path " << path;
-		return false;
-	}
-	while (!input.eof()) {
-		getline(input, line);
-		// std::cout << line << std::endl;
-
-		// calculates the number of occurrences of each unique symbol
-		calculateOccurs(arr, line);
-	}
-	input.close();
-	return true;
-}
-// so this is not really reusable, and I'm not sure if that can be fixed, or if it even is necessary
-
-
-void outputToFile(std::string outputPath, int arr[]) {
-	std::ofstream output;
-	output.open(outputPath);
-
-	std::cout << "Creating output.txt file with char occurences in input file\n";
-	for (int i = 0; i < possibleChars; ++i) {
-		if (arr[i]) {
-			// std::cout << char(i) << ": " << charOccurs[i] << std::endl;
-			output << char(i) << ": " << arr[i] << std::endl;
-		}
-	}
-	output.close();
-}
+#include <log4cpp/PropertyConfigurator.hh>
+#include <log4cpp/Category.hh>
 
 
 int main() {
-	// gets the path to file as an input from command line
-	std::string path;
+	// Logging stuff
+	std::string initFileName = "log4cpp.properties";
+	log4cpp::PropertyConfigurator::configure(initFileName);
+
+	log4cpp::Category& root = log4cpp::Category::getRoot();
+
+	log4cpp::Category& main =
+		log4cpp::Category::getInstance(std::string("main"));
+
+	main.info("Started app");
+
+
+	std::string inputPath;
 	ConsoleReader reader;
-	std::cout << "Input file path:\n";
-	if (reader.readConsole()) {
-		path = reader.buffer;
+	if (reader.readConsole("Input file path:")) {
+		inputPath = reader.getData();
 	}
 	else {
-		exit(-1);
+		main.info("Exited from app");
+		log4cpp::Category::shutdown();
+		return 0;
 	}
-	std::cout << "\n";
-	//path = "Debug/test.txt";
+	std::cout << std::endl;
 
-	
-	// create an array filled with 0
-	int charOccurs[possibleChars];
-	for (int i = 0; i < possibleChars; ++i) {
-		charOccurs[i] = 0;
-	}
+	CharOccurrences calculateChars;
 
-	
-	// reads the text from file
-	if (calculateOccursInFile(path, charOccurs)) {
-		// outputs to another file
-		outputToFile("output.txt", charOccurs);
+	std::string outputPath = "Output/output.txt";
+
+	if (calculateChars.calculateOccursInFile(inputPath)) {
+		if (calculateChars.outputToFile(outputPath)) {
+			main.info("Creating " + outputPath + " file with char occurences in input file.");
+		}
+		else {
+			main.error("Could not create the file with a path " + outputPath);
+		}
 	}
+	else {
+		main.error("Could not open the file with a path " + inputPath);
+	}
+	log4cpp::Category::shutdown();
+	return 0;
 }

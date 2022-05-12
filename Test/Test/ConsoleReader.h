@@ -1,30 +1,17 @@
 #pragma once
-#include <iostream>
-#include <conio.h>
+
+#include <log4cpp/PropertyConfigurator.hh>
+#include <log4cpp/Category.hh>
 
 class ConsoleReader {
-	public:
+	private:
 		std::string buffer = "";
-		int readConsole() {
-			char esc = 27;
-			char enter = 13;
-			char backspace = 8;
-			char c;
-			do {
-				c = _getch();
-				if (c != enter && c != esc) {
-					if (c != backspace)
-						buffer += c;
-					else
-						buffer.pop_back();
-					_putch(c);
-				}
-				// can getchar even get esc?
-				else
-					break;
-			} while (true);
-			if (c == esc)
-				buffer = "";
-			return buffer.length();
-		};
+		log4cpp::Category& reader =
+			log4cpp::Category::getInstance(std::string("consoleReader"));
+	public:
+		const char esc = 27;
+		const char enter = 13;
+		const char backspace = 8;
+		const std::string getData();
+		int readConsole(const char * prompt);
 };

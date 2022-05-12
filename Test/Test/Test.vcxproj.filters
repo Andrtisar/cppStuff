@@ -18,10 +18,25 @@
     <ClCompile Include="Source.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ConsoleReader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharOccurrences.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConsoleReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CharOccurrences.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="log4cpp.properties" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="log4cpp.properties" />
   </ItemGroup>
 </Project>
